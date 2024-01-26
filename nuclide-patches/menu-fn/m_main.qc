@@ -21,9 +21,9 @@ CMainButton main_btnTraining;
 CMainButton main_btnConfiguration;
 CMainButton main_btnLoadGame;
 CMainButton main_btnMultiplayer;
-CMainButton main_btnCustomGame;
+//CMainButton main_btnCustomGame;
 CMainButton main_btnReadme;
-CMainButton main_btnPreviews;
+//CMainButton main_btnPreviews;
 CMainButton main_btnQuit;
 
 CWidget fn_main2;
@@ -34,8 +34,8 @@ CMainButton main_btn2Training;
 CMainButton main_btn2Configuration;
 CMainButton main_btn2LoadGame;
 CMainButton main_btn2Multiplayer;
-CMainButton main_btn2CustomGame;
-CMainButton main_btn2Previews;
+//CMainButton main_btn2CustomGame;
+//CMainButton main_btn2Previews;
 CMainButton main_btn2Quit;
 
 CDialog main_dgQuit;
@@ -182,6 +182,8 @@ btn_quit_cancel(void)
 void
 menu_main_init(void)
 {
+	localsound("../media/menu.wav");
+
 	/* Main Menu (Disconnected) */
 	fn_main = spawn(CWidget);
 	main_btnConsole = spawn(CMainButton);
@@ -356,6 +358,7 @@ menu_main_init(void)
 void
 menu_main_draw(void)
 {
+	
 	if (clientstate() == 2 && !g_background) {
 		Widget_Draw(fn_main2);
 		WLabel_Static(235, 216, m_reslbl[IDS_MAIN_RETURNHELP], HELPTXT_SIZE, HELPTXT_SIZE,
