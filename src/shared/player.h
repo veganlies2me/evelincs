@@ -226,7 +226,6 @@ player::Physics_InputPostMove(void)
 	UpdatePlayerAnimation(input_timelength);
 
 	RemoveFlags(FL_FROZEN);
-	ProcessInput();
 
 #ifdef SERVER
 	if (g_cs_gamestate == GAME_FREEZE) {
@@ -234,9 +233,14 @@ player::Physics_InputPostMove(void)
 	if (getstati(STAT_GAMESTATE) == GAME_FREEZE) {
 #endif
 		flags |= FL_FROZEN;
-	}
-}
 
+		if (input_buttons & INPUT_BUTTON0) {
+			w_attack_next = (w_attack_next > 0.1) ? w_attack_next : 0.1f;
+		}
+
+	}
+	ProcessInput();
+}
 
 void Animation_PlayerUpdate(player); 
 void Animation_TimerUpdate(player, float); 

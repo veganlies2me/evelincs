@@ -36,7 +36,7 @@ CSMultiplayerRules::PlayerDisconnect(NSClientPlayer pl)
 	if (health > 0)
 		PlayerDeath(pl);
 
-	NSGameRules::PlayerDisconnect(pl);
+	super::PlayerDisconnect(pl);
 }
 
 void
@@ -44,8 +44,44 @@ CSMultiplayerRules::PlayerDeath(NSClientPlayer pl)
 {
 	player targ = (player)g_dmg_eTarget;
 	player attk = (player)g_dmg_eAttacker;
+	NSRenderableEntity newCorpse;
+	float deathAnimation = ANIM_DEATH1;
 
-	FX_Corpse_Spawn(targ, ANIM_DEATH1);
+	if (targ.flags & FL_CROUCHING) {
+		deathAnimation = ANIM_CROUCH_DIE;
+	} else {
+		switch (g_dmg_iHitBody) {
+		case BODY_HEAD:
+			deathAnimation = ANIM_DIE_HEAD;
+			break;
+		case BODY_STOMACH:
+			deathAnimation = ANIM_DIE_GUT;
+			break;
+		case BODY_ARMLEFT:
+			deathAnimation = ANIM_DIE_LEFT;
+			break;
+		case BODY_ARMRIGHT:
+			deathAnimation = ANIM_DIE_RIGHT;
+			break;
+		default:
+			bool isFacing = targ.IsFacingPosition(g_dmg_vecLocation);
+
+			/* still want to play ANIM_DEATH1 */
+			if (random() < 0.5f) {
+				if (isFacing == false) {
+					deathAnimation = ANIM_DIE_FORWARD;
+				} else {
+					deathAnimation = ANIM_DIE_BACK;
+				}
+			}
+
+			break;
+		}
+	}
+
+	newCorpse = (NSRenderableEntity)FX_Corpse_Spawn(targ, deathAnimation);
+	
+	targ.SpectatorDeathcam(newCorpse, attk, 3.0f);
 
 	/* obituary networking */
 	WriteByte(MSG_MULTICAST, SVC_CGAMEPACKET);
@@ -84,6 +120,14 @@ CSMultiplayerRules::PlayerDeath(NSClientPlayer pl)
 		}
 	}
 
+	/* scoreboard death icon */
+	if (g_dmg_eTarget.flags & FL_CLIENT) {
+		targ.SetInfoKey("*icon1", "d_skull");
+		targ.SetInfoKey("*icon1_r", "1");
+		targ.SetInfoKey("*icon1_g", "0");
+		targ.SetInfoKey("*icon1_b", "0");
+	}
+
 	Weapon_DropCurrentWeapon(targ);
 
 	/* if we're the bomb carrier, make sure we drop the bomb. */
@@ -99,6 +143,8 @@ CSMultiplayerRules::PlayerDeath(NSClientPlayer pl)
 	PlayerClearWeaponry(targ);
 	targ.Death();
 	targ.gflags &= ~GF_FLASHLIGHT;
+
+	targ.StartSoundDef("Player.Death", CHAN_AUTO, true);
 
 	/* gamerule stuff */
 	targ.MakeTempSpectator();
@@ -543,15 +589,6 @@ CSMultiplayerRules::RestartRound(int iWipe)
 		}
 	}
 
-	/* clear the corpses/items/bombs */
-	for (entity eFind = world; (eFind = find(eFind, ::classname, "remove_me"));) {
-		if (eFind.identity) {
-			NSEntity e = (NSEntity)eFind;
-			e.Destroy();
-		} else {
-			remove(eFind);
-		}
-	}
 	for (entity eFind = world; (eFind = find(eFind, ::classname, "tempdecal"));) {
 		decal dec = (decal)eFind;
 		dec.m_strTexture = "";
@@ -609,6 +646,16 @@ CSMultiplayerRules::RestartRound(int iWipe)
 		NSEntity caw = (NSEntity)a;
 		if (caw.classname != "player")
 			caw.Respawn();
+	}
+
+	/* clear the corpses/items/bombs */
+	for (entity eFind = world; (eFind = find(eFind, ::classname, "remove_me"));) {
+		if (eFind.identity) {
+			NSEntity toRemove = (NSEntity)eFind;
+			toRemove.Destroy();
+		} else {
+			remove(eFind);
+		}
 	}
 
 	CSBot_BuyStart();
@@ -879,6 +926,11 @@ CSMultiplayerRules::PlayerRespawn(NSClientPlayer pp, int fTeam)
 	pl.angles = eSpawn.angles;
 	pl.SendFlags = UPDATE_ALL;
 	Client_FixAngle(pl, pl.angles);
+
+	pl.SetInfoKey("*icon1", "");
+	pl.SetInfoKey("*icon1_r", "1");
+	pl.SetInfoKey("*icon1_g", "1");
+	pl.SetInfoKey("*icon1_b", "1");
 
 	switch (pl.charmodel) {
 	case 1:
