@@ -251,7 +251,7 @@ w_usp45_reload(player pl)
 
 	if (pl.w_attack_next > 0.0)
 		return;
-	if (pl.usp45_mag >= 12)
+	if (pl.usp45_mag >= 10)
 		return;
 	if (!pl.ammo_45acp)
 		return;
@@ -268,7 +268,7 @@ w_usp45_reload(player pl)
 #ifdef SERVER
 	static void w_weapon_reload_done(void) {
 		player pl = (player)self;
-		Weapons_ReloadWeapon(pl, player::usp45_mag, player::ammo_45acp, 12);
+		Weapons_ReloadWeapon(pl, player::usp45_mag, player::ammo_45acp, 10);
 		Cstrike_ShotReset(pl);
 	}
 
