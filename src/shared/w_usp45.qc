@@ -93,12 +93,12 @@ w_usp45_pickup(player pl, int new, int startammo)
 
 	if (new) {
 		if (startammo == -1)
-			pl.usp45_mag = 12;
+			pl.usp45_mag = 10;
 		else
 			pl.usp45_mag = startammo;
 	} else {
 		if (pl.ammo_45acp < AMMO_MAX_45ACP) {
-			pl.ammo_45acp = bound(0, pl.ammo_45acp + 12, AMMO_MAX_45ACP);
+			pl.ammo_45acp = bound(0, pl.ammo_45acp + 10, AMMO_MAX_45ACP);
 		} else {
 			return (0);
 		}
@@ -112,11 +112,12 @@ w_usp45_draw(player pl)
 {
 	
 	Weapons_SetModel("models/v_usp.mdl");
-	if (pl.mode_usp45 == 1) {
+	/*if (pl.mode_usp45 == 1) {
 		Weapons_ViewAnimation(pl, USP45_DRAW);
 	} else {
 		Weapons_ViewAnimation(pl, USP45_DRAWUNSIL);
-	}
+	}*/
+	Weapons_ViewAnimation(pl, USP45_DRAW);
 
 #ifdef CLIENT
 	pl.cs_cross_mindist = 8;
@@ -143,7 +144,7 @@ w_usp45_primary(player pl)
 
 	/* this stuff is predicted */
 	int r = (float)input_sequence % 3;
-	if (pl.mode_usp45 == 1) {
+	/*if (pl.mode_usp45 == 1) {
 		if (pl.usp45_mag <= 0) {
 			Weapons_ViewAnimation(pl, USP45_SHOOTLAST);
 		} else {
@@ -175,6 +176,21 @@ w_usp45_primary(player pl)
 				break;
 			}
 		}
+	}*/
+	if (pl.usp45_mag <= 0) {
+		Weapons_ViewAnimation(pl, USP45_SHOOTLAST);
+	} else {
+		switch (r) {
+		case 0:
+			Weapons_ViewAnimation(pl, USP45_SHOOT1);
+			break;
+		case 1:
+			Weapons_ViewAnimation(pl, USP45_SHOOT2);
+			break;
+		default:
+			Weapons_ViewAnimation(pl, USP45_SHOOT3);
+			break;
+		}
 	}
 
 	if (pl.flags & FL_CROUCHING)
@@ -187,11 +203,12 @@ w_usp45_primary(player pl)
 	View_AddEvent(w_pistol_ejectshell, 0.0f);
 #else
 	/* Different sounds without silencer */
-	if (pl.mode_usp45 == 1) {
+	/*if (pl.mode_usp45 == 1) {
 		Sound_Play(pl, CHAN_WEAPON, "weapon_usp45.silenced");
 	} else {
 		Sound_Play(pl, CHAN_WEAPON, "weapon_usp45.fire");
-	}
+	}*/
+	Sound_Play(pl, CHAN_WEAPON, "weapon_usp45.silenced");
 
 	/* actual firing */
 	dmg = Skill_GetValue("plr_usp45_dmg", 33);
@@ -216,14 +233,14 @@ w_usp45_secondary(player pl)
 		return;
 
 	/* toggle silencer */
-	pl.mode_usp45 = 1 - pl.mode_usp45;
+	//pl.mode_usp45 = 1 - pl.mode_usp45;
 
 	/* play the animation */
-	if (pl.mode_usp45)
+	/*if (pl.mode_usp45)
 		Weapons_ViewAnimation(pl, USP45_ADDSIL);
 	else
 		Weapons_ViewAnimation(pl, USP45_DETACHSIL);
-
+	*/
 	pl.w_attack_next = 3.1f;
 	pl.w_idle_next = pl.w_attack_next;
 }
@@ -239,10 +256,11 @@ w_usp45_reload(player pl)
 	if (!pl.ammo_45acp)
 		return;
 
-	if (pl.mode_usp45 == 1)
+	/*if (pl.mode_usp45 == 1)
 		Weapons_ViewAnimation(pl, USP45_RELOAD);
 	else
-		Weapons_ViewAnimation(pl, USP45_RELOADUNSIL);
+		Weapons_ViewAnimation(pl, USP45_RELOADUNSIL);*/
+	Weapons_ViewAnimation(pl, USP45_RELOAD);
 
 	pl.w_attack_next = 2.5f;
 	pl.w_idle_next = pl.w_attack_next;
