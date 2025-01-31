@@ -23,11 +23,12 @@ CMD_ChooseTeam(void)
 	if (serverkeyfloat("sv_playerslots") <= 1)
 		return;
 
-	/* handle both VGUI and text menus */
+	/* JUST VGUI
 	if (ClientGame_IsUsingVGUI())
 		VGUI_ChooseTeam();
 	else
-		Textmenu_Toggle("TEAM_SELECT");
+		Textmenu_Toggle("TEAM_SELECT");*/
+	VGUI_ChooseTeam();
 }
 
 void
@@ -40,11 +41,12 @@ CMD_BuyMenu(void)
 		return;
 	}
 
-	/* handle both VGUI and text menus */
+	/* JUST VGUI
 	if (ClientGame_IsUsingVGUI())
 		VGUI_BuyMenu();
 	else
-		Textmenu_Toggle("BUY");
+		Textmenu_Toggle("BUY");*/
+	VGUI_BuyMenu();
 }
 
 int

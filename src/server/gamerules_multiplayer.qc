@@ -1065,7 +1065,7 @@ CSMultiplayerRules::PlayerMakePlayable(NSClientPlayer pp, int chara)
 
 		if (autocvar_fcs_knifeonly == FALSE) {
 			Weapons_AddItem(pl, WEAPON_USP45, -1);
-			pl.ammo_45acp = 24;
+			pl.ammo_45acp = 30;
 		}
 	}
 

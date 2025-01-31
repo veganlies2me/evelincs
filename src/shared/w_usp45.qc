@@ -40,13 +40,13 @@ enum
 	USP45_DRAW,
 	USP45_ADDSIL,
 	USP45_IDLEUNSIL,
-	USP45_SHOOT1UNSIL,
-	USP45_SHOOT2UNSIL,
-	USP45_SHOOT3UNSIL,
-	USP45_SHOOTLASTUNSIL,
-	USP45_RELOADUNSIL,
-	USP45_DRAWUNSIL,
-	USP45_DETACHSIL
+	//USP45_SHOOT1UNSIL,
+	//USP45_SHOOT2UNSIL,
+	//USP45_SHOOT3UNSIL,
+	//USP45_SHOOTLASTUNSIL,
+	//USP45_RELOADUNSIL,
+	//USP45_DRAWUNSIL,
+	//USP45_DETACHSIL
 };
 
 void
@@ -107,8 +107,7 @@ w_usp45_pickup(player pl, int new, int startammo)
 	return (1);
 }
 
-void
-w_usp45_draw(player pl)
+void w_usp45_draw(player pl)
 {
 	
 	Weapons_SetModel("models/v_usp.mdl");
@@ -126,8 +125,7 @@ w_usp45_draw(player pl)
 #endif
 }
 
-void
-w_usp45_primary(player pl)
+void w_usp45_primary(player pl)
 {
 
 	if (pl.w_attack_next > 0.0)
@@ -225,28 +223,27 @@ w_usp45_primary(player pl)
 	pl.w_idle_next = pl.w_attack_next;
 }
 
-void
-w_usp45_secondary(player pl)
+//void
+/*w_usp45_secondary(player pl)
 {
 
 	if (pl.w_attack_next > 0)
 		return;
 
-	/* toggle silencer */
-	//pl.mode_usp45 = 1 - pl.mode_usp45;
+	//toggle silencer
+	pl.mode_usp45 = 1 - pl.mode_usp45;
 
-	/* play the animation */
-	/*if (pl.mode_usp45)
+	// play the animation
+	if (pl.mode_usp45)
 		Weapons_ViewAnimation(pl, USP45_ADDSIL);
 	else
 		Weapons_ViewAnimation(pl, USP45_DETACHSIL);
-	*/
+	
 	pl.w_attack_next = 3.1f;
 	pl.w_idle_next = pl.w_attack_next;
-}
+}*/
 
-void
-w_usp45_reload(player pl)
+void w_usp45_reload(player pl)
 {
 
 	if (pl.w_attack_next > 0.0)
@@ -369,7 +366,7 @@ weapon_t w_usp45 =
 	.draw		= w_usp45_draw,
 	.holster	= __NULL__,
 	.primary	= w_usp45_primary,
-	.secondary	= w_usp45_secondary,
+	//.secondary	= w_usp45_secondary,
 	.reload		= w_usp45_reload,
 	.release	= w_usp45_release,
 	.postdraw	= w_usp45_hud,
