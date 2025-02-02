@@ -34,8 +34,8 @@ int g_cstrikeWeaponPrice[] =
 	5000,	/* WEAPON_G3SG1 */
 	4200,	/* WEAPON_SG550 */
 	5750,	/* WEAPON_PARA */
-	500,	/* WEAPON_USP45 */
-	400,	/* WEAPON_GLOCK18 */
+	1000,	/* WEAPON_USP45 */
+	800,	/* WEAPON_GLOCK18 */
 	650,	/* WEAPON_DEAGLE */
 	600,	/* WEAPON_P228 */
 	800,	/* WEAPON_ELITES */
@@ -49,12 +49,12 @@ int g_cstrikeWeaponPrice[] =
 
 int g_cstrikeUtilPrice[] =
 {
-	650,	/* Kevlar Vest */
-	1000,	/* Kevlar Vest & Helmet */
-	200,	/* Flashbang */
-	300,	/* HE Grenade */
-	300,	/* Smoke Grenade */
-	200,	/* Defuse Kit */
+	1300,	/* Kevlar Vest */
+	2000,	/* Kevlar Vest & Helmet */
+	400,	/* Flashbang */
+	600,	/* HE Grenade */
+	600,	/* Smoke Grenade */
+	400,	/* Defuse Kit */
 	1250	/* NightVision Goggles */
 };
 

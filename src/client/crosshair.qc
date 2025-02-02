@@ -17,8 +17,8 @@
 var bool autocvar_cl_dynamiccrosshair = true;
 var float autocvar_cl_crosshair_distance = 4;
 var float autocvar_cl_crosshair_extralength = 0;
-var float autocvar_cl_crosshair_thickness = 1;
-var vector autocvar_cl_crosshair_color = [0,1,0];
+var float autocvar_cl_crosshair_thickness = 2;
+var vector autocvar_cl_crosshair_color = [1,1,1];
 var float autocvar_cl_crosshair_alpha = 1.0f;
 var bool autocvar_cl_crosshair_additive = true;
 

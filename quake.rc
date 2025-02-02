@@ -44,7 +44,7 @@ bind "q" "lastinv"
 // Game Variables
 seta "hostname" "CSNE Server"
 seta "maxplayers" "8"
-seta "mp_startmoney" "800"
+seta "mp_startmoney" "1600"
 seta "mp_buytime" "90"
 seta "mp_freezetime" "6"
 seta "mp_c4timer" "45"
@@ -55,14 +55,14 @@ seta "fcs_nopickups" "0"
 seta "fcs_reward_kill" "300"
 seta "fcs_penalty_pain" "-150"
 seta "fcs_penalty_kill" "-1500"
-seta "fcs_maxmoney" "16000"
+seta "fcs_maxmoney" "32000"
 seta "fcs_fillweapons" "0"
 seta "fcs_autoreload" "0"
 
 // 2D/HUD Variables
 seta "con_color" "245 245 245"
 seta "vgui_color" "255 255 240"
-seta "cross_color" "0 0 255"
+//unused ingame seta "cross_color" "0 0 255"
 
 // physics
 seta sv_stepheight 18
@@ -88,3 +88,4 @@ seta gl_overbright 0
 seta gl_ldr 1
 seta r_lightmap_format rgb8
 seta cl_movespeedkey 0.2
+seta gl_texturemode gl_nearest_mipmap_linear //personal preference
